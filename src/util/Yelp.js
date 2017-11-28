@@ -8,7 +8,7 @@ const Yelp = {
 		if (accessToken) {
 			return new Promise(resolve => resolve(accessToken));
 		}
-		return fetch(`${urlCORS}https://api.yelp.com/oauth2/token?grant_type=client_credentials&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`, { method: 'POST' }).then(response => {
+		return fetch(`${urlCORS}https://api.yelp.com/oauth2/token?grant_type=client_credentials&client_id=${clientId}&client_secret=${secret}`, { method: 'POST' }).then(response => {
 			return response.json();
 		}).then(jsonResponse => {
 			accessToken = jsonResponse.access_token;
@@ -16,7 +16,7 @@ const Yelp = {
 	},
 	search (term, location, sortBy) {
 		return Yelp.getAccessToken().then(() => {
-			return fetch(`${urlCORS}https://api.yelp.com/v3/businesses/search?term=${TERM}&location=${LOCATION}&sort_by=${SORT_BY}`, { headers: { Authorization: `Bearer ${accessToken}`} 
+			return fetch(`${urlCORS}https://api.yelp.com/v3/businesses/search?term=${term}&location=${location}&sort_by=${sortBy}`, { headers: { Authorization: `Bearer ${accessToken}`} 
 			}).then(response => {
 				return response.json();
 			}).then(jsonResponse => {
@@ -25,7 +25,7 @@ const Yelp = {
 						return {
 							id: business.id,
 						imageSrc: business.image_url,
-						name: business.name.
+						name: business.name,
 						address: business.location.address1,
 						city: business.location.city,
 						state: business.location.state,
@@ -37,7 +37,7 @@ const Yelp = {
 					})
 				}
 			})
-		}
+		})
 	}
 }
 
